@@ -6,4 +6,3 @@
   <p>A página que você tentou acessar não existe.</p>
   <a href="/student-grades/grades">Voltar para a página principal</a>
 </body>
-</html>

@@ -40,7 +40,6 @@
       <groupId>jakarta.servlet.jsp</groupId>
       <artifactId>jakarta.servlet.jsp-api</artifactId>
       <version>3.1.0</version>
-      <scope>provided</scope>
     </dependency>
 
     <!-- Jakarta Tag Library -->
@@ -48,6 +47,13 @@
       <groupId>jakarta.servlet.jsp.jstl</groupId>
       <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
       <version>3.0.2</version>
+    </dependency>
+
+    <!-- JSTL Implementation -->
+    <dependency>
+      <groupId>org.glassfish.web</groupId>
+      <artifactId>jakarta.servlet.jsp.jstl</artifactId>
+      <version>3.0.1</version>
     </dependency>
 
     <!-- MariaDB JDBC Driver -->
@@ -60,6 +66,15 @@
 
   <build>
     <finalName>student-grades</finalName>
+    <resources>
+      <resource>
+        <directory>src/main/webapp</directory>
+        <includes>
+          <include>**/*.jsp</include>
+        </includes>
+      </resource>
+    </resources>
+
     <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
       <plugins>
         <plugin>
