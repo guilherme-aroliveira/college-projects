@@ -29,7 +29,7 @@ public class StudentServlet extends HttpServlet {
     req.setAttribute("student_list", students);
 
     // Step 1: get request dispatcher
-    RequestDispatcher dispatcher = req.getRequestDispatcher("view_students.jsp");
+    RequestDispatcher dispatcher = req.getRequestDispatcher("index.jsp");
 
     // Step 2: forward teh request to JSP
     dispatcher.forward(req, resp);
