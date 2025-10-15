@@ -4,5 +4,5 @@
 <body>
   <h1>Erro 404</h1>
   <p>A página que você tentou acessar não existe.</p>
-  <a href="/student-grades/grades">Voltar para a página principal</a>
+  <a href="/student-grades/">Voltar para a página principal</a>
 </body>
