@@ -9,8 +9,8 @@ services:
       - MARIADB_ROOT_PASSWORD=secret # Root Password for MysQL
       - MARIADB_ALLOW_EMPTY_ROOT_PASSWORD=no
       - MARIADB_DATABASE=studentdb
-      - MARIADB_USER=student
-      - MARIADB_PASSWORD=student123
+      - MARIADB_USER=webstudent
+      - MARIADB_PASSWORD=webstudent123
     ports:
       - "3136:3306"
     networks:

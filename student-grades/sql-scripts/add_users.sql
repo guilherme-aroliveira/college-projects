@@ -1,19 +1,19 @@
 /* add user on the mariadb */
-CREATE USER 'webstudent'@'localhost' IDENTIFIED BY 'webstudent';
+CREATE USER 'webstudent'@'localhost' IDENTIFIED BY 'webstudent123';
 GRANT ALL PRIVILEGES ON * . * TO 'webstudent'@'localhost';
 
 /* Create DB */
-CREATE DATABASE  IF NOT EXISTS `web_student_tracker`;
-USE `web_student_tracker`;
+CREATE DATABASE  IF NOT EXISTS `student_db`;
+USE `student_db`;
 
 /* Create tables */
-CREATE TABLE `student` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `first_name` varchar(45) DEFAULT NULL,
-  `last_name` varchar(45) DEFAULT NULL,
-  `email` varchar(45) DEFAULT NULL,
+CREATE TABLE `studentdb`.`student` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT , 
+  `first_name` VARCHAR(45) NULL DEFAULT NULL , 
+  `last_name` VARCHAR(45) NULL DEFAULT NULL , 
+  `email` VARCHAR(45) NULL DEFAULT NULL , 
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb3_unicode_ci;
+) ENGINE = InnoDB CHARSET=utf8mb3 COLLATE utf8mb3_unicode_ci;
 
 /* Add data */
 INSERT INTO `student` VALUES (1,'Mary','Public','mary@luv2code.com'),

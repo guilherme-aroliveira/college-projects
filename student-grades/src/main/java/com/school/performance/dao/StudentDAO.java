@@ -1,23 +1,86 @@
 package com.school.performance.dao;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.sql.DataSource;
 
 import com.school.performance.model.Student;
 
 public class StudentDAO {
   
-  public static List<Student> getStudent() {
+  private DataSource dataSource;
 
-    // create an empty list
+  public StudentDAO(DataSource theDataSource) {
+    dataSource = theDataSource;
+  }
+
+  public List<Student> getStudents() throws Exception {
+
     List<Student> students = new ArrayList<>();
 
-    // add sample data
-    students.add(new Student("Mary", "Public", "mary@luv2code.com"));
-    students.add(new Student("John", "Doe", "john@luv2code.com"));
-    students.add(new Student("Ajay", "Rao", "ajay@luv2code.com"));
+    Connection conn = null;
+    Statement stmt = null;
+    ResultSet rs = null;
 
-    // return the list
-    return students;
+    try {
+      // get a connection
+      conn = dataSource.getConnection();
+
+      // create a sql statement
+      String sql = "select * from student order by last_name";
+      stmt = conn.createStatement();
+
+      // execute query
+      rs = stmt.executeQuery(sql);
+
+      // process result set
+      while (rs.next()) {
+
+        // retrieve data from result set row
+        int id = rs.getInt("id");
+        String firstName = rs.getString("first_name");
+        String lastName = rs.getString("last_name");
+        String email = rs.getString("email");
+
+        // create a new student object
+        Student tempStudent = new Student(id, firstName, lastName, email);
+
+        // add it to the list of students
+        students.add(tempStudent);
+      }
+
+      return students;
+
+    }
+    finally {
+      // close JDBC objects
+      close(conn, stmt, rs);
+    }
+
+  }
+
+  private void close(Connection conn, Statement stmt, ResultSet rs) {
+    
+    try {
+
+      if (rs != null) {
+        rs.close();
+      }
+
+      if (stmt != null) {
+        stmt.close();
+      }
+
+      if (conn != null) {
+        conn.close(); // puts back the connection pool
+      }
+    } 
+    catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 }

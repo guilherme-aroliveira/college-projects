@@ -15,6 +15,12 @@
     <res-auth>Container</res-auth>
   </resource-ref>
 
+  <welcome-file-list>
+    <welcome-file>StudentServlet</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>index.html</welcome-file>
+  </welcome-file-list>
+
   <error-page>
     <error-code>404</error-code>
     <location>/WEB-INF/error-pages/error404.jsp</location>

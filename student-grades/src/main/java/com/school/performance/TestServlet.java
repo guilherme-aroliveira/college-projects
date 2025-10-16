@@ -24,7 +24,6 @@ public class TestServlet extends HttpServlet {
   @Resource(name="jdbc/MariaDB")
   private DataSource dataSource;
 
-  @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
   // Step 1: Set up the printwriter
   PrintWriter out = resp.getWriter();
@@ -57,7 +56,6 @@ public class TestServlet extends HttpServlet {
     }
   }
 
-  @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     doGet(req, resp);
   }
