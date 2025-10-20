@@ -19,7 +19,7 @@ public class StudentDAO {
     dataSource = theDataSource;
   }
 
-  public List<Student> getStudents() throws Exception {
+  public List<Student> getStudent() throws Exception {
 
     List<Student> students = new ArrayList<>();
 
@@ -114,5 +114,54 @@ public class StudentDAO {
       close(conn, stmt, null);
     }
 
+  }
+
+  public Student getStudent(String theStudentId) throws Exception{
+    
+    Student theStudent = null;
+
+    Connection conn = null;
+    PreparedStatement stmt = null;
+    ResultSet rs = null;
+    int studentId;
+
+    try {
+      // convert student id to int
+      studentId = Integer.parseInt(theStudentId);
+
+      // get connection to database
+      conn = dataSource.getConnection();
+
+      // create sql to get selected student
+      String sql = "SELECT * FROM student WHERE id=?";
+
+      // create prepared statement
+      stmt = conn.prepareStatement(sql);
+
+      // set params
+      stmt.setInt(1, studentId);
+
+      // execute statement
+      rs = stmt.executeQuery();
+
+      // retrieve data from result set row
+      if (rs.next()) {
+        String firstName = rs.getString("first_name");
+        String lastName = rs.getString("last_name");
+        String email = rs.getString("email");
+
+        // use the studentId during construction
+        theStudent = new Student(studentId, firstName, lastName, email);
+      }
+      else {
+        throw new Exception("Coud not find student id: " + studentId);
+      }
+
+      return theStudent;
+    }
+    finally {
+      // clean up JDBC object
+      close(conn, stmt, rs);
+    }
   }
 }

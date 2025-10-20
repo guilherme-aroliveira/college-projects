@@ -58,28 +58,48 @@ public class StudentServlet extends HttpServlet{
       switch (theCommand) {
 
         case "LIST": 
-          listStudents(req, resp);
+          listStudent(req, resp);
           break;
 
         case "ADD": 
-          addStudents(req, resp);
+          addStudent(req, resp);
+          break;
+
+        case "LOAD":
+          loadStudent(req, resp);
           break;
 
         default:
-          listStudents(req, resp);
+          listStudent(req, resp);
       }
 
        // list the students ... in MVC fashion
-      listStudents(req, resp);
+      listStudent(req, resp);
     } 
     catch (Exception e) {
       throw new ServletException(e);
     }
   }
 
-  private void addStudents(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+  private void loadStudent(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+
+    // read student id from form data
+    String theStudentId = req.getParameter("studenId");
+
+    // get student from database (db util)
+    Student theStudent = studentDAO.getStudent(theStudentId);
+
+    // place student in the request attribute
+    req.setAttribute("THE_STUDENT", theStudent);
+
+    // send to jsp page (update-student form)
+    RequestDispatcher dispatcher = req.getRequestDispatcher("/update-student-form.jsp");
+    dispatcher.forward(req, resp);
+  }
+
+  private void addStudent(HttpServletRequest req, HttpServletResponse resp) throws Exception {
     
-    // read student info from data
+    // read student info from form data
     String firstName = req.getParameter("firstName");
     String lastName = req.getParameter("lastName");
     String email = req.getParameter("email");
@@ -91,13 +111,13 @@ public class StudentServlet extends HttpServlet{
     studentDAO.addStudent(theStudent);
 
     // send back to main page (the student list)
-    listStudents(req, resp);
+    listStudent(req, resp);
   }
 
-  private void listStudents(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+  private void listStudent(HttpServletRequest req, HttpServletResponse resp) throws Exception {
     
     // get students from db dao
-    List<Student> students = studentDAO.getStudents();
+    List<Student> students = studentDAO.getStudent();
 
     // add student to the request
     req.setAttribute("STUDENT_LIST", students);
