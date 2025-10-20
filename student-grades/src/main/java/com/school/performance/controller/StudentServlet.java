@@ -46,12 +46,52 @@ public class StudentServlet extends HttpServlet{
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
     try {
+      // read the "command" parameter
+      String theCommand = req.getParameter("command");
+
+      // if the command is missing, then default to listing students
+      if (theCommand == null) {
+        theCommand = "LIST";
+      }
+
+      // route to the apppropriate method
+      switch (theCommand) {
+
+        case "LIST": 
+          listStudents(req, resp);
+          break;
+
+        case "ADD": 
+          addStudents(req, resp);
+          break;
+
+        default:
+          listStudents(req, resp);
+      }
+
        // list the students ... in MVC fashion
       listStudents(req, resp);
     } 
     catch (Exception e) {
       throw new ServletException(e);
     }
+  }
+
+  private void addStudents(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+    
+    // read student info from data
+    String firstName = req.getParameter("firstName");
+    String lastName = req.getParameter("lastName");
+    String email = req.getParameter("email");
+
+    // create a new student object
+    Student theStudent = new Student(firstName, lastName, email);
+
+    // add the student to the database
+    studentDAO.addStudent(theStudent);
+
+    // send back to main page (the student list)
+    listStudents(req, resp);
   }
 
   private void listStudents(HttpServletRequest req, HttpServletResponse resp) throws Exception {
@@ -63,7 +103,7 @@ public class StudentServlet extends HttpServlet{
     req.setAttribute("STUDENT_LIST", students);
 
     // send to JSP page (view)
-    RequestDispatcher dispatcher = req.getRequestDispatcher("/list-students.jsp");
+    RequestDispatcher dispatcher = req.getRequestDispatcher("list-students.jsp");
     dispatcher.forward(req, resp);
   }
 

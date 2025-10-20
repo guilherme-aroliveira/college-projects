@@ -5,8 +5,8 @@
       factory="org.apache.tomcat.jdbc.pool.DataSourceFactory"
       driverClassName="org.mariadb.jdbc.Driver"
       url="jdbc:mariadb://localhost:3136/studentdb"
-      username="student"
-      password="student123"
+      username="webstudent"
+      password="webstudent123"
       maxTotal="20"
       maxIdle="5"
       maxWaitMillis="10000"/>

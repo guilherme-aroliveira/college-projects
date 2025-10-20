@@ -6,7 +6,7 @@
 
   <head>
     <title>Student Tracker App</title>
-    <link type="text/css" rel="stylesheet" href="resources/css/style.css">
+    <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css">
   </head>
 
   <body> 
@@ -20,6 +20,13 @@
     <div id="container">
 
       <div id="content">
+
+        <!-- put new button: Add Student -->
+        <input type="button" value="Add Student"
+                onclick="window.location.href='add-student-form.jsp';
+                return false;"
+                class="add-student-button"
+        />
 
         <table>
 

@@ -1,6 +1,7 @@
 package com.school.performance.dao;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -82,5 +83,36 @@ public class StudentDAO {
     catch (Exception e) {
       e.printStackTrace();
     }
+  }
+
+  public void addStudent(Student theStudent) throws Exception {
+
+    Connection conn = null;
+    PreparedStatement stmt = null;
+
+    try {
+      // get the db connection
+      conn = dataSource.getConnection();
+
+      // create sql for insert
+      String sql = "INSERT INTO student " 
+                  + "(first_name, last_name, email) " 
+                  + "VALUES (?,?,?)";
+
+      stmt = conn.prepareStatement(sql);
+
+      // set the param values for tthe student
+      stmt.setString(1, theStudent.getFirstName());
+      stmt.setString(2, theStudent.getLastName());
+      stmt.setString(3, theStudent.getEmail());
+
+      // execute sql inserts
+      stmt.execute();
+    } 
+    finally {
+      // clean up TDBC objects
+      close(conn, stmt, null);
+    }
+
   }
 }
