@@ -116,7 +116,7 @@ public class StudentDAO {
 
   }
 
-  public Student getStudent(String theStudentId) throws Exception{
+  public Student getStudent(String theStudentId) throws Exception {
     
     Student theStudent = null;
 
@@ -162,6 +162,38 @@ public class StudentDAO {
     finally {
       // clean up JDBC object
       close(conn, stmt, rs);
+    }
+  }
+
+  public void updateStudent(Student theStudent) throws Exception {
+    
+    Connection conn = null;
+    PreparedStatement stmt = null;
+
+    try {
+      // get the db connection
+      conn = dataSource.getConnection();
+
+      // create SQL update statement
+      String sql = "UPDATE student " 
+                  + "set first_name=?, last_name=?, email=? "  
+                  + "WHERE id=?";
+
+      // prepare statement
+      stmt = conn.prepareStatement(sql);
+
+      // set params
+      stmt.setString(1, theStudent.getFirstName());
+      stmt.setString(2, theStudent.getLastName());
+      stmt.setString(3, theStudent.getEmail());
+      stmt.setInt(4, theStudent.getId());
+
+      // execute SQL satement
+      stmt.execute();
+    }
+    finally {
+      // clean up JDBC objects
+      close(conn, stmt, null);
     }
   }
 }

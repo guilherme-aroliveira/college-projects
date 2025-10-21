@@ -69,6 +69,10 @@ public class StudentServlet extends HttpServlet{
           loadStudent(req, resp);
           break;
 
+        case "UPDATE":
+          updateStudent(req, resp);
+          break;
+
         default:
           listStudent(req, resp);
       }
@@ -79,6 +83,24 @@ public class StudentServlet extends HttpServlet{
     catch (Exception e) {
       throw new ServletException(e);
     }
+  }
+
+  private void updateStudent(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+    
+    // read student info from form data
+    int id = Integer.parseInt(req.getParameter("studentId"));
+    String firstName = req.getParameter("firstName");
+    String lastName = req.getParameter("lastName");
+    String email = req.getParameter("email");
+
+    // create a new student object
+    Student theStudent = new Student(id, firstName, lastName, email);
+
+    // perform update on database
+    studentDAO.updateStudent(theStudent);
+
+    // send them back to the "list students" page
+    listStudent(req, resp);
   }
 
   private void loadStudent(HttpServletRequest req, HttpServletResponse resp) throws Exception {
