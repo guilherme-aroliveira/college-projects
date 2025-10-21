@@ -73,6 +73,10 @@ public class StudentServlet extends HttpServlet{
           updateStudent(req, resp);
           break;
 
+        case "DELETE":
+          deleteStudent(req, resp);
+          break;
+
         default:
           listStudent(req, resp);
       }
@@ -83,6 +87,18 @@ public class StudentServlet extends HttpServlet{
     catch (Exception e) {
       throw new ServletException(e);
     }
+  }
+
+  private void deleteStudent(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+    
+    // read student id from form data
+    String theStudentId = req.getParameter("studentId");
+
+    // delete student from database
+    studentDAO.deleteStudent(theStudentId);
+
+    // send them back to the "list students" page
+    listStudent(req, resp);
   }
 
   private void updateStudent(HttpServletRequest req, HttpServletResponse resp) throws Exception {
@@ -106,7 +122,7 @@ public class StudentServlet extends HttpServlet{
   private void loadStudent(HttpServletRequest req, HttpServletResponse resp) throws Exception {
 
     // read student id from form data
-    String theStudentId = req.getParameter("studenId");
+    String theStudentId = req.getParameter("studentId");
 
     // get student from database (db util)
     Student theStudent = studentDAO.getStudent(theStudentId);

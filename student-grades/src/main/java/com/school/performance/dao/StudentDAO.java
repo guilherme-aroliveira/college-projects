@@ -196,4 +196,34 @@ public class StudentDAO {
       close(conn, stmt, null);
     }
   }
+
+  public void deleteStudent(String theStudentId) throws Exception {
+    
+    Connection conn = null;
+    PreparedStatement stmt = null;
+
+    try {
+      // convert student id to int
+      int studentId = Integer.parseInt(theStudentId);
+
+      // get the db connection
+      conn = dataSource.getConnection();
+
+      // create SQL to delete student
+      String sql = "DELETE FROM student WHERE id=?";
+
+       // prepare statement
+      stmt = conn.prepareStatement(sql);
+
+      // set params
+      stmt.setInt(1, studentId);
+
+      // execute SQL satement
+      stmt.execute();
+    }
+    finally {
+      // clean up JDBC objects
+      close(conn, stmt, null);
+    }
+  }
 }
