@@ -226,4 +226,67 @@ public class StudentDAO {
       close(conn, stmt, null);
     }
   }
+
+  public List<Student> searchStudents(String theSearchName) throws Exception {
+    
+    List<Student> students = new ArrayList<>();
+
+    Connection conn = null;
+    PreparedStatement stmt = null;
+    ResultSet rs = null;
+
+    try {
+
+      // get connection to database
+      conn = dataSource.getConnection();
+
+      // only search by name if theSearchName is not empty
+      if (theSearchName != null && theSearchName.trim().length() > 0) {
+        
+        // create sql to search for students by name
+        String sql = "SELECT * FROM student WHERE lower(first_name) like ? or lower(last_name) like ?";
+
+        // create prepared statement
+        stmt = conn.prepareStatement(sql);
+
+        // set params
+        String theSearchNameLike = "%" + theSearchName.toLowerCase() + "%";
+        stmt.setString(1, theSearchNameLike);
+        stmt.setString(2, theSearchNameLike);
+      }
+      else {
+        // create sql to get all students
+        String sql = "SELECT * FROM student order by last_name";
+
+        // create prepared statement
+        stmt = conn.prepareStatement(sql);
+      }
+
+      // execute statement
+      rs = stmt.executeQuery();
+
+      // retrieve data from result set row
+      while (rs.next()) {
+
+        // retrieve data from result set row
+        int id = rs.getInt("id");
+        String firstName = rs.getString("first_name");
+        String lastName = rs.getString("last_name");
+        String email = rs.getString("email");
+
+        // create new student object
+        Student tempStudent = new Student(id, firstName, lastName, email);
+
+        // add it to the list of students
+        students.add(tempStudent);
+      }
+
+      return students;
+
+    }
+    finally {
+      // clean up JDBC objects
+      close(conn, stmt, rs);
+    }
+  }
 }

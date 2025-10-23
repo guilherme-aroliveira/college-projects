@@ -28,6 +28,13 @@
                 class="add-student-button"
         />
 
+        <!--  add a search box -->
+        <form action="StudentServlet" method="GET">
+          <input type="hidden" name="command" value="SEARCH"/>
+            Search student: <input type="text" name="theSearchName"/>
+            <input type="submit" value="Search" class="add-student-button">
+        </form>
+
         <table>
 
           <tr>

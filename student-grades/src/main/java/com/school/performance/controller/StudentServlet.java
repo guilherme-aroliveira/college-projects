@@ -73,6 +73,10 @@ public class StudentServlet extends HttpServlet {
           deleteStudent(req, resp);
           break;
 
+        case "SEARCH":
+          searchStudents(req, resp);
+          break;
+
         default:
           listStudent(req, resp);
       }
@@ -83,6 +87,22 @@ public class StudentServlet extends HttpServlet {
     catch (Exception e) {
       throw new ServletException(e);
     }
+  }
+
+  private void searchStudents(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+  
+    // read search name from form data
+    String theSearchName = req.getParameter("theSearchName");
+
+    // search students from db dao
+    List<Student> students = studentDAO.searchStudents(theSearchName);
+
+    // add students to the request
+    req.setAttribute("STUDENT_LIST", students);
+
+    // send to JSP page (view)
+    RequestDispatcher dispatcher = req.getRequestDispatcher("list-students.jsp");
+    dispatcher.forward(req, resp);
   }
 
   private void deleteStudent(HttpServletRequest req, HttpServletResponse resp) throws Exception {
