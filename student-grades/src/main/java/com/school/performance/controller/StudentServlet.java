@@ -17,7 +17,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 @WebServlet("/StudentServlet")
-public class StudentServlet extends HttpServlet{
+public class StudentServlet extends HttpServlet {
 
   private static final long serialVersionUID = 1L;
 
@@ -34,7 +34,7 @@ public class StudentServlet extends HttpServlet{
   public void init() throws ServletException { 
     super.init();
 
-    // create the studen DB DAO ... and pass in the conn pool / datasource
+    // create the student DB DAO ... and pass in the conn pool / datasource
     try {
       studentDAO = new StudentDAO(dataSource);
     }
@@ -59,10 +59,6 @@ public class StudentServlet extends HttpServlet{
 
         case "LIST": 
           listStudent(req, resp);
-          break;
-
-        case "ADD": 
-          addStudent(req, resp);
           break;
 
         case "LOAD":
@@ -149,7 +145,8 @@ public class StudentServlet extends HttpServlet{
     studentDAO.addStudent(theStudent);
 
     // send back to main page (the student list)
-    listStudent(req, resp);
+    // SEND AS REDIRECT to avoid multiple-browser reload issue
+    resp.sendRedirect(req.getContextPath() + "/StudentServlet?command=LIST");
   }
 
   private void listStudent(HttpServletRequest req, HttpServletResponse resp) throws Exception {
@@ -166,6 +163,24 @@ public class StudentServlet extends HttpServlet{
   }
 
   protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    doGet(req, resp);
+    
+    try {
+      // read the "command" parameter
+      String theCommand = req.getParameter("command");
+
+      // route to the appropriate method
+      switch (theCommand) {
+        
+        case "ADD":
+          addStudent(req, resp);
+          break;
+
+        default:
+          listStudent(req, resp);
+      }
+    } 
+    catch (Exception e) {
+      throw new ServletException(e);
+    }
   }
 }

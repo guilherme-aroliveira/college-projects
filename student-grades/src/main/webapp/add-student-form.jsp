@@ -21,7 +21,7 @@
     <div id="container">
       <h3>Add Student</h3>
 
-      <form action="StudentServlet" method="GET">
+      <form action="StudentServlet" method="POST">
 
         <input type="hidden" name="command" value="ADD"/>
 
