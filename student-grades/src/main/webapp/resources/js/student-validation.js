@@ -24,8 +24,8 @@ function validadeForm() {
     errorFields.push("Email");
   }
 
-  if (theErrorFields.length > 0) {
-		alert("Form validation failed. Please add data for following fields: " + theErrorFields);
+  if (errorFields.length > 0) {
+		alert("Form validation failed. Please add data for following fields: " + errorFields);
 		return false;
 	}
 }
