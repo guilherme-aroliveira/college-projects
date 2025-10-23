@@ -8,6 +8,8 @@
 
     <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css">
     <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/add-student-style.css">
+
+    <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/student-validation.js"></script>
   </head>
 
   <body>
@@ -21,7 +23,8 @@
     <div id="container">
       <h3>Add Student</h3>
 
-      <form action="StudentServlet" method="POST">
+      <form action="StudentServlet" method="POST" 
+        name="studentForm" onSubmit="return validateForm()">
 
         <input type="hidden" name="command" value="ADD"/>
 
